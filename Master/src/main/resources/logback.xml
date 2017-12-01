@@ -1,0 +1,53 @@
+<configuration scan="true">
+
+	<appender name="GeneralAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>log/domo4pi.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>log/domo4pi.log.%i</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>9</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>20MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d [%thread] %-5level %logger{40} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">context
+		<encoder>
+			<pattern>%d [%thread] %X{requestContext}%-5level %logger{40} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<!-- Apache MyFaces logger -->
+	<logger name="com.domo4pi">
+		<level value="dabug" />
+	</logger>
+
+	<logger name="com.domo4pi.topology.bind.MasterArea">
+		<level value="info" />
+	</logger>
+
+	<logger name="com.domo4pi.topology.TopologyChecker">
+		<level value="info" />
+	</logger>
+
+	<logger name="com.domo4pi.gsm.SMSSenderTimer">
+		<level value="warn" />
+	</logger>
+
+	<logger name="com.domo4pi.alarm.AlarmManager">
+		<level value="warn" />
+	</logger>
+
+
+	<!-- Root logger -->
+	<root level="info">
+		<appender-ref ref="GeneralAppender" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

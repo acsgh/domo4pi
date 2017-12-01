@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<GridPane alignment="center" hgap="10" minHeight="600.0" minWidth="400.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.domo4pi.core.mock.serial.SerialManagerMockController">
+   <children>
+      <TextArea fx:id="outputText" GridPane.rowIndex="0" GridPane.columnIndex="0" editable="false"/>
+      <HBox GridPane.rowIndex="1" GridPane.columnIndex="0">
+         <children>
+            <TextField prefWidth="445" fx:id="inputText"/>
+            <Button mnemonicParsing="false" text="Send" onAction="#sendCommand"/>
+         </children>
+      </HBox>
+   </children>
+</GridPane>

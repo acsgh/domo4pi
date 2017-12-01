@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane alignment="center" hgap="10" minHeight="600.0" minWidth="400.0" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.domo4pi.core.mock.gpio.GPIOManagerMockController">
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <CheckBox mnemonicParsing="false" text="0" GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="pin0" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="1" GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="pin1" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="2" GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="pin2" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="3" GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="pin3" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="4" GridPane.rowIndex="2" GridPane.columnIndex="0" fx:id="pin4" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="5" GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="pin5" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="6" GridPane.rowIndex="3" GridPane.columnIndex="0" fx:id="pin6" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="7" GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="pin7" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="8" GridPane.rowIndex="4" GridPane.columnIndex="0" fx:id="pin8" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="9" GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="pin9" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="10" GridPane.rowIndex="5" GridPane.columnIndex="0" fx:id="pin10" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="11" GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="pin11" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="12" GridPane.rowIndex="6" GridPane.columnIndex="0" fx:id="pin12" disable="true"/>
+      <CheckBox mnemonicParsing="false" text="13" GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="pin13" disable="true"/>
+   </children>
+</GridPane>

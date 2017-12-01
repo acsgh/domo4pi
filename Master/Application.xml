@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Application name="Talamanca">
+    <Properties>
+        <Property key="Core.runningPin">6</Property>
+        <Property key="Core.serialSpeed">19200</Property>
+
+        <Property key="GSM.smsEnabled">true</Property>
+        <Property key="GSM.powerPin">0</Property>
+        <Property key="GSM.powerCheckPin">1</Property>
+
+        <Property key="Saldo.threshold">2</Property>
+
+        <Property key="Alarm.sirenPin">3</Property>
+        <Property key="Alarm.sabotagePin">5</Property>
+        <Property key="Alarm.remoteTimeInitMillis">2000</Property>
+        <Property key="Alarm.sleepTimeMillis">500</Property>
+        <Property key="Alarm.remoteNodeSocketMillisecondsTimeout">500</Property>
+        <Property key="Alarm.maxUnreadUntilSabotage">4</Property>
+        <Property key="Alarm.sabotageWaitTime">8000</Property>
+        <Property key="Alarm.activatingSeconds">5</Property>
+        <Property key="Alarm.suspiciousSeconds">5</Property>
+
+        <Property key="Telnet.port">6969</Property>
+        <Property key="Telnet.password">admin</Property>
+    </Properties>
+    <Alarm>
+        <Nodes>
+            <Master name="Master"/>
+            <Remote name="Cocina" address="localhost" port="3535"/>
+            <!--<Remote name="Cuadra" address="localhost" port="3536"/>-->
+
+            <!--<Remote name="Cocina" address="192.168.1.70" port="5555"/>-->
+            <!--<Remote name="Cuadra" address="192.168.1.71" port="5555"/>-->
+        </Nodes>
+        <Areas>
+            <Area name="Casa" node="Cocina">
+                <!--<Safety node="Cocina" pin="3" name="Incendios Cocina"/>-->
+                <!--<Alarm node="Cocina" pin="8" name="Puerta Cocina"/>-->
+                <!--<Key node="Cocina" pin="10"/>-->
+                <!--<Sabotage node="Cocina" pin="11"/>-->
+
+                <!--<Sabotage node="Master" pin="4"/>-->
+
+
+                <Safety node="Cocina" pin="3" name="Incendios Cocina"/>
+                <Alarm node="Cocina" pin="8" name="Puerta Cocina"/>
+                <Key node="Cocina" pin="10"/>
+                <Sabotage node="Cocina" pin="0"/>
+
+
+                <Key node="Master" pin="9"/>
+                <Sabotage node="Master" pin="10"/>
+            </Area>
+            <!--<Area name="Cuadras" node="Cuadra">-->
+                <!--<Key node="Cuadra" pin="10"/>-->
+            <!--</Area>-->
+        </Areas>
+    </Alarm>
+</Application>

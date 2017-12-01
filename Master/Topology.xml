@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Topology>
+    <Master name="Master" belongsTo="Casa">
+        <!--<Sabotage pin="5"/>-->
+        <Alarm pin="5" name="Cocina0"/>
+        <!--<Alarm pin="7" name="Cocina1"/>-->
+        <!--<Alarm pin="8" name="Cocina2"/>-->
+        <!--<Alarm pin="9" name="Cocina3"/>-->
+        <!--<Alarm pin="9" name="Cocina4"/>-->
+        <!--<Alarm pin="10" name="Cocina5"/>-->
+        <!--<Alarm pin="11" name="Cocina6"/>-->
+    </Master>
+    <Slave name="Casa" address="192.168.1.70" port="5555">
+        <Safety pin="3" name="Incendios Cocina"/>
+        <Alarm pin="8" name="Puerta Cocina"/>
+        <Key pin="10"/>
+        <Sabotage pin="11"/>
+    </Slave>
+    <Slave name="Cuadras" address="192.168.1.71" port="5555">
+        <Key pin="10"/>
+        <!--<Sabotage pin="11"/>-->
+    </Slave>
+</Topology>

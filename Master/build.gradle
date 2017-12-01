@@ -1,0 +1,112 @@
+apply plugin: 'java'
+
+task deploy(dependsOn: [':jar', ':copyToLib']) {
+    doLast {
+        exec {
+            commandLine 'scp', 'build/libs/Master.jar', 'root@192.168.1.66:Domo4Pi/Master.jar'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', 'Application.xml', 'root@192.168.1.66:Domo4Pi/Application.xml'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', 'Notifications.xml', 'root@192.168.1.66:Domo4Pi/Notifications.xml'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', 'Topology.xml', 'root@192.168.1.66:Domo4Pi/Topology.xml'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', '-r', 'web', 'root@192.168.1.66:Domo4Pi/.'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'ssh', 'root@192.168.1.66', 'rm -rf /root/Domo4Pi/libs'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', '-r', 'build/output/libs', 'root@192.168.1.66:Domo4Pi/.'
+            standardOutput = System.out
+        }
+    }
+}
+
+task deploy2(dependsOn: [':jar', ':copyToLib']) {
+    doLast {
+        exec {
+            commandLine 'scp', 'build/libs/Master.jar', 'pi@192.168.1.66:Domo4Pi/Master.jar'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', 'Application.xml', 'pi@192.168.1.66:Domo4Pi/Application.xml'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', 'Notifications.xml', 'pi@192.168.1.66:Domo4Pi/Notifications.xml'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', 'Topology.xml', 'pi@192.168.1.66:Domo4Pi/Topology.xml'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'ssh', 'pi@192.168.1.66', 'rm -rf /home/pi/Domo4Pi/web'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', '-r', 'web', 'pi@192.168.1.66:Domo4Pi/.'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'ssh', 'pi@192.168.1.66', 'rm -rf /home/pi/Domo4Pi/libs'
+            standardOutput = System.out
+        }
+        exec {
+            commandLine 'scp', '-r', 'build/output/libs', 'pi@192.168.1.66:Domo4Pi/.'
+            standardOutput = System.out
+        }
+    }
+}
+
+task run(type: JavaExec) {
+    main = 'com.domo4pi.ServerApplicationMain'
+    classpath = sourceSets.main.runtimeClasspath
+
+    standardOutput = System.out
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/output/libs"
+    from configurations.runtime
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+}
+
+dependencies {
+    compile 'commons-codec:commons-codec:1.4'
+
+    compile 'com.pi4j:pi4j-core:0.0.5'
+
+    compile 'ch.qos.logback:logback-classic:1.0.13'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.5'
+
+    compile 'io.netty:netty-all:4.0.17.Final'
+    compile 'com.google.code.gson:gson:2.2.4'
+
+    compile 'org.powermock:powermock-module-junit4:1.5.3'
+    compile 'org.powermock:powermock-api-mockito:1.5.4'
+}
+
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/groups/public"
+    }
+    mavenCentral()
+}
+

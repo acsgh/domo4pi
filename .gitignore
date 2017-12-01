@@ -12,3 +12,22 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+
+.directory
+.gradle/*
+.idea/*
+*.iml
+build/*
+classes/*
+logs/*
+logFile.log
+*.log
+Master/Alarm.xml
+Master/Notifications.xml
+Master/log/*
+*.zip
+.hg/
+Master/.idea/*
+Slave/,idea/*
+Master/out/*
+Master/src/old/*

@@ -1,0 +1,160 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          domo4pi
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Domo4Pi Service
+# Description:       This file should be used to construct scripts to be
+#                    placed in /etc/init.d.
+### END INIT INFO
+
+# Author: Foo Bar <foobar@baz.org>
+#
+# Please remove the "Author" lines above and replace them
+# with your own name if you copy and modify this script.
+
+# Do NOT "set -e"
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="Domo 4 Pi service"
+NAME=Domo4Pi
+DAEMON_HOME=/home/pi/Domo4Pi
+DAEMON_ARGS=$DAEMON_HOME
+PID_FILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+BOOTSTRAP_LOG=/var/log/domo4pi.log
+
+# Exit if the package is not installed
+[ -d "$DAEMON_HOME" ] || exit 0
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+# and status_of_proc is working.
+. /lib/lsb/init-functions
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+	if [ -f "$PID_FILE" ]
+	then
+		echo "Domo4Pi is already started"
+		exit 1
+	fi
+	rm -f /var/log/domo4pi.log*
+	#nohup java -classpath .:classes:/opt/pi4j/lib/'*':$DAEMON_HOME/libs/'*':$DAEMON_HOME/Core-1.0.jar com.acs.domo4pi.Domo4Pi $DAEMON_HOME > $BOOTSTRAP_LOG
+	eval \"nohup\" \"java\" -classpath \"$DAEMON_HOME/logback.xml:classes:/opt/pi4j/lib/'*':$DAEMON_HOME/libs/'*':$DAEMON_HOME/Core-1.0.jar\" "com.acs.domo4pi.Domo4Pi" \"$DAEMON_HOME\" "&"
+	DOMO4PI_PID=$!
+	echo $DOMO4PI_PID > $PID_FILE
+	  
+	COUNTER=0
+	STOP=false
+
+	sleep 10
+
+	while [[ "$STOP" == "false" && $COUNTER -lt 60  ]]
+	do
+		OUTPUT=`cat $BOOTSTRAP_LOG | grep 'INFO  com.acs.domo4pi.Domo4Pi - Started Talamanca 1.0'`
+		if [ -n "$OUTPUT" ]
+		then
+			STOP=true
+		else
+			let COUNTER=COUNTER+1 
+			sleep 1
+		fi
+	done
+
+	if [ "$STOP" == "true" ]
+	then
+		echo "Domo4Pi successfully started"
+		exit 0
+	else
+		echo "Domo4Pi unsuccessfully started"
+		exit 1
+	fi
+}
+
+do_force_stop()
+{
+	if [ ! -f "$PID_FILE" ]
+	then
+		echo "Domo4Pi is not started"
+	else
+		PID=`cat $PID_FILE`
+		kill -9 $PID
+		
+		echo "JBOSS successfully stopped"
+	fi
+
+	rm -f $PID_FILE	
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+	if [ ! -f "$PID_FILE" ]
+	then
+		echo "Domo4Pi is not started"
+		exit 1
+	else
+		PID=`cat $PID_FILE`
+        kill $PID
+		rm -f $PID_FILE
+		echo "Domo4pi successfully stopped"
+	fi	
+}
+
+case "$1" in
+  start)
+	echo "Starting $NAME"
+	do_start
+	;;
+  stop)
+	echo "Stopping $NAME"
+	do_stop
+	;;
+  status)
+	if [ ! -f "$PID_FILE" ]
+	then
+		echo "Domo4Pi is not started"
+	else
+		echo "Domo4pi is running"
+	fi	
+	;;
+  force-stop)
+	echo "Force stopping $NAME"
+	do_force_stop
+	;;
+  restart|force-reload)
+	echo "Restarting $NAME"
+	do_stop
+	case "$?" in
+	  0|1)
+		do_start
+		;;
+	  *)
+		# Failed to stop
+		log_end_msg 1
+		;;
+	esac
+	;;
+  tail)
+	tail -n 1000 -f $BOOTSTRAP_LOG
+	;;
+  *)
+	#echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-stop}" >&2
+	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-stop|tail}" >&2
+	exit 3
+	;;
+esac
+
+:
